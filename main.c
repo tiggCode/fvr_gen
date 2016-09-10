@@ -67,17 +67,6 @@ static int fvr_gen_pick_out_cmd_line(char *read_buffer, int *write_pos)
 
     memset(cmd_line, 0, sizeof(cmd_line));
 
-    //printf("pick_out_cmd_line read_buffer=\n%s\n", read_ptr);
-    #if 0
-    for(i = 0; i < FVR_GEN_MAX_BUFF_LEN; i++)
-    {
-        if (*(read_ptr + i) == 0x0d || *(read_ptr + i) == 0x0a)
-        {
-            printf("=====> %d , 0x%x\n", i, *(read_ptr + i));
-            break;
-        }
-    }
-    #else
     do
     {
         end_ptr = strstr(read_ptr, "\x0d\x0a");
@@ -128,7 +117,6 @@ static int fvr_gen_pick_out_cmd_line(char *read_buffer, int *write_pos)
         memset(&read_buffer[*write_pos], 0, (int)(read_ptr - read_buffer));
         printf("4- read_buffer *write_pos=%d\n", *write_pos);
     }
-    #endif // 1
 
     printf("4- read_buffer err_code=%d\n", err_code);
 
@@ -167,7 +155,6 @@ int fvr_gen_parse_conf_file(char* path)
         else
         {
             printf("fvr_gen_parse_conf_file last package\n");
-            //printf("%s\n", read_buffer);
             err_code = fvr_gen_pick_out_cmd_line(read_buffer, &write_pos);
             if (err_code == FVR_CK_SUCCESS)
                 fvr_gen_parse_cmd_line(read_buffer, write_pos);
